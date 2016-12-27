@@ -63,7 +63,7 @@ public class HangedMan implements WinFailGame {
             Words.remove(word);
             int error = word.length();
             while( error > 0 && !word.solved() ){
-                Letter letter = this.ioManager.getChar();
+                Letter letter = new Letter(this.ioManager.getChar());
                 if (!word.showDiscovered(letter))
                     error--;
                 this.getMessages().showCurrentState(word, error, this.getLives());
