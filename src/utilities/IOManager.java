@@ -4,10 +4,19 @@ import java.util.Scanner;
 /**
  * Created by estupidani on 27/12/16.
  */
-public class IOManager extends Scanner{
+public class IOManager{
+    private Scanner scanner;
+
+    public Scanner getScanner() {
+        return scanner;
+    }
+
+    public void setScanner(Scanner scanner) {
+        this.scanner = scanner;
+    }
 
     public IOManager(){
-        super(System.in);
+        this.setScanner(new Scanner(System.in));
     }
 
     public void out(String string){
@@ -19,7 +28,7 @@ public class IOManager extends Scanner{
     }
 
     public char getChar(){
-        String read = this.nextLine();
+        String read = scanner.nextLine();
         return read.charAt(0);
     }
 }

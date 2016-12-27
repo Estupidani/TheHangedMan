@@ -26,6 +26,7 @@ public class Word {
         Letter[] letters = new Letter[word.length()];
         for ( int i = 0; i < word.length() ; i++ )
             letters[i] = new Letter(word.charAt(i));
+        this.setLetters(letters);
     }
 
     public int length(){
@@ -36,7 +37,7 @@ public class Word {
         boolean solved = true;
         int i = 0;
         while( i < this.length() && solved ){
-            solved = this.getLetters(i).getDiscovered()
+            solved = this.getLetters(i).isDiscovered();
         }
         return solved;
     }
@@ -44,12 +45,10 @@ public class Word {
     public boolean showDiscovered(char letter){ //Changes the selected letters to discovered and returns false if there weren't any
         boolean anyDiscovered = false;
         for( int i = 0; i < this.length() ; i++ )
-            if( this.getLetters(i).getCharacter().equals(letter) ){
+            if( this.getLetters(i).getCharacter() == letter ){ //Equals method cannot be used
                 if (!anyDiscovered)
                     anyDiscovered = true;
-                Letter letter = new Letter(letter);
-                letter.setDiscovered(true);
-                this.setLetters(i, letter);
+                this.setLetters(i, new Letter(letter, true));
             }
         return anyDiscovered;
     }
@@ -59,7 +58,7 @@ public class Word {
         String string = "";
         for ( int i = 0; i < this.length() ; i++ ){
             Letter letter = this.getLetters(i);
-            if(letter.getDiscovered())
+            if(letter.isDiscovered())
                 string+=letter.getCharacter();
             else string+='*';
         }

@@ -18,12 +18,12 @@ public class GameMessages {
         String message = "Welcome to the Hanged Man Game by Daniel Rubio\n";
         message += "You start with "+lives+" lives. Every time you fail a word, you lose one.\n";
         message += "For each word you get to make as many mistakes as characters in said word. You should know the rest of" +
-                "the rules, and if you don't just google them\n";
+                "the rules, and if you don't just google them.\n";
         this.ioManager.out(message);
     }
 
     public void showCurrentState(Word word, int error, int lives){
-        String message = "---Current State---";
+        String message = "---Current State---\n";
         message += "Your word looks like this: " + word.toString()+"\n";
         message += "You have "+error+ " mistake(s) left\n";
         message += "You have "+lives+" live(s) left\n";
