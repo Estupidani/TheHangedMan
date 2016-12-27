@@ -28,7 +28,6 @@ public class Words extends ArrayList<Word> {
         for( int i = 0; i < numberOfWords ; i++ )
             this.add(this.getWordArray(i));
         for ( int i = 0; i < this.size() ; i++ ){
-            System.out.println(i);
         }
     }
 }

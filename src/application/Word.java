@@ -38,6 +38,7 @@ public class Word {
         int i = 0;
         while( i < this.length() && solved ){
             solved = this.getLetters(i).isDiscovered();
+            i++;
         }
         return solved;
     }
@@ -45,7 +46,7 @@ public class Word {
     public boolean showDiscovered(char letter){ //Changes the selected letters to discovered and returns false if there weren't any
         boolean anyDiscovered = false;
         for( int i = 0; i < this.length() ; i++ )
-            if( this.getLetters(i).getCharacter() == letter ){ //Equals method cannot be used
+            if( this.getLetters(i).getCharacter() == letter ){
                 if (!anyDiscovered)
                     anyDiscovered = true;
                 this.setLetters(i, new Letter(letter, true));
