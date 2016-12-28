@@ -19,7 +19,7 @@ public class GameMessages {
         message += "You start with "+lives+" lives. Every time you fail a word, you lose one.\n";
         message += "For each word you get to make as many mistakes as characters in said word. You should know the rest of" +
                 "the rules, and if you don't just google them.\n";
-        this.ioManager.out(message);
+        this.ioManager.outln(message);
     }
 
     public void showCurrentState(Word word, int error, int lives){
@@ -30,10 +30,17 @@ public class GameMessages {
         this.ioManager.out(message);
     }
 
+    public void failMessage(Word word,int size, int lives){
+        String message = "Ouch! You didn't guess that one!\n";
+        message += "The word you were trying to guess was '"+word.toStringCharacters()+"'\n";
+        message += "You still have "+size+" word(s) to go and "+lives+" live(s) to succeed!\n";
+        this.ioManager.outln(message);
+
+    }
     public void congratulationsMessage(int size, int lives){
         String message = "Congratulations! You guessed this word. Just "+ size+ " to go!\n";
         message += "You have "+lives+" lives to achieve it\n";
-        this.ioManager.out(message);
+        this.ioManager.outln(message);
     }
 
     public void goodByeMessage(boolean wins){

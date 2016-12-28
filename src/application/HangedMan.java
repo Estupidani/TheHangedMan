@@ -59,7 +59,7 @@ public class HangedMan implements WinFailGame {
     public void play(){
         this.getMessages().welcomeMessage(this.getLives());
         do{
-            Word word = this.getWords().get(0/*ThreadLocalRandom.current().nextInt(0, this.getWords().size())*/);
+            Word word = this.getWords().get(ThreadLocalRandom.current().nextInt(0, this.getWords().size()));
             this.words.remove(word);
             int error = word.length();
             while( error > 0 && !word.solved() ){
@@ -68,9 +68,11 @@ public class HangedMan implements WinFailGame {
                 if (!word.showDiscovered(letter))
                     error--;
             }
-            if ( error == 0 )
-                this.setLives(this.getLives()-1);
-            else messages.congratulationsMessage(this.getWords().size(), this.getLives());
+            if ( error == 0 ) {
+                this.setLives(this.getLives() - 1);
+                this.getMessages().failMessage(word, this.getWords().size(), this.getLives());
+            }
+            else this.getMessages().congratulationsMessage(this.getWords().size(), this.getLives());
         } while(!failState() && !winState());
         this.getMessages().goodByeMessage(this.winState());
     }

@@ -54,6 +54,21 @@ public class Word {
         return anyDiscovered;
     }
 
+    public void discoverAll(){
+        for(int i = 0; i < this.length() ; i++ ){
+            Letter letter = this.getLetters(i);
+            letter.setDiscovered(true);
+            this.setLetters(i, letter);
+        }
+    }
+
+    public String toStringCharacters(){
+        String string = "";
+        for ( int i = 0; i < this.length() ; i++ )
+            string += this.getLetters(i).getCharacter();
+        return string;
+    }
+
     @Override
     public String toString() {
         String string = "";
