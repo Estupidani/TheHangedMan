@@ -1,6 +1,7 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by estupidani on 27/12/16.
@@ -25,9 +26,10 @@ public class Words extends ArrayList<Word> {
     }
 
     public Words(int numberOfWords){
+        ArrayList<Word> auxiliarWordArray = new ArrayList<Word>();
+        for(int i = 0; i < this.getWordArray().length ; i++ )
+            auxiliarWordArray.add(this.getWordArray(i));
         for( int i = 0; i < numberOfWords ; i++ )
-            this.add(this.getWordArray(i));
-        for ( int i = 0; i < this.size() ; i++ ){
-        }
+            this.add(auxiliarWordArray.remove(ThreadLocalRandom.current().nextInt(0, auxiliarWordArray.size())));
     }
 }

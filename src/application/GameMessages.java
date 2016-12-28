@@ -17,6 +17,7 @@ public class GameMessages {
     public GameMessages(){
         this.setIoManager(new IOManager());
     }
+
     public void welcomeMessage(int lives){
         String message = "Welcome to the Hanged Man Game by Daniel Rubio\n";
         message += "You start with "+lives+" lives. Every time you fail a word, you lose one.\n";
@@ -24,11 +25,19 @@ public class GameMessages {
                 "the rules, and if you don't just google them.\n";
         this.ioManager.outln(message);
     }
+
+    public void repeatedLetter(){
+        this.ioManager.outln("\nOops! Seems like you've already used that letter. Let's try that again!\n");
+    }
+
     private String stringUsedCharacters(ArrayList<Character> usedCharacters){
         String characters = "";
-        for(int i = 0; i < usedCharacters.size() ; i++ )
-            characters += usedCharacters.get(i)+", ";
-        characters += "\n";
+        for(int i = 0; i < usedCharacters.size() ; i++ ) {
+            characters += usedCharacters.get(i);
+            if ( i < usedCharacters.size() - 1 )
+                characters += ", ";
+        }
+        characters += ".\n";
         return characters;
     }
 
@@ -45,13 +54,15 @@ public class GameMessages {
     public void failMessage(Word word,int size, int lives){
         String message = "Ouch! You didn't guess that one!\n";
         message += "The word you were trying to guess was '"+word.toStringCharacters()+"'\n";
+        if ( size > 0 )
         message += "You still have "+size+" word(s) to go and "+lives+" live(s) to succeed!\n";
         this.ioManager.outln(message);
 
     }
     public void congratulationsMessage(int size, int lives){
-        String message = "Congratulations! You guessed this word. Just "+ size+ " to go!\n";
-        message += "You have "+lives+" lives to achieve it\n";
+        String message = "Congratulations! You guessed this word.\n";
+        if ( size > 0 )
+            message += "Just "+ size+ " to go!\n"+ "You have "+lives+" lives to achieve it\n";
         this.ioManager.outln(message);
     }
 

@@ -5,8 +5,8 @@ package application;
  */
 public class Game {
     public static void main(String[] args){
-        int vidas = 10, palabras = 9;
-        HangedMan hangedMan = new HangedMan(vidas, palabras);
+        int lives = 9, numberOfWords = 1;
+        HangedMan hangedMan = new HangedMan(lives, numberOfWords);
         hangedMan.play();
     }
 }

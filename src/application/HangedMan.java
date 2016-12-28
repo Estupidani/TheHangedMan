@@ -49,6 +49,8 @@ public class HangedMan implements WinFailGame {
     }
 
     public HangedMan(int lives, int numberOfWords){
+        if( numberOfWords < lives )
+            lives = numberOfWords - 1; //If there are more lives than words it's impossible to lose. There's no need to trigger an exception
         this.setLives(lives);
         this.setWords(new Words(numberOfWords));
         this.setIoManager(new IOManager());
@@ -57,16 +59,16 @@ public class HangedMan implements WinFailGame {
 
     @Override
     public boolean winState() {
-        return this.getWords().size() == 0 && this.getLives() > 0;
+        return this.getWords().size() == 0 && this.getLives() >= 0;
     }
 
     @Override
     public boolean failState() {
-        return this.getLives() == 0;
+        return this.getLives() == -1;
     }
 
     private Word selectWord(){//Selects a random word from words and deletes it right after
-        Word newWord = this.getWords((ThreadLocalRandom.current().nextInt(0, this.getWords().size())));
+        Word newWord = this.getWords(ThreadLocalRandom.current().nextInt(0, this.getWords().size()));
         Words auxiliarWords = this.getWords();
         auxiliarWords.remove(newWord);
         this.setWords(auxiliarWords);
@@ -79,9 +81,12 @@ public class HangedMan implements WinFailGame {
         while( errors > 0 && !word.solved() ){
             this.getMessages().showCurrentState(word, errors, this.getLives(), usedCharacters);
             char letter = this.ioManager.getChar();
-            usedCharacters.add(letter);
-            if (!word.showDiscovered(letter))
-                errors--;
+            if (!usedCharacters.contains(letter)){
+                usedCharacters.add(letter);
+                if (!word.showDiscovered(letter))
+                    errors--;
+            }
+            else this.getMessages().repeatedLetter();
         }
         return errors;
     }
