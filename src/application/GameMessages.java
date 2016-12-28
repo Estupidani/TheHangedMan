@@ -1,6 +1,9 @@
 package application;
 
 import utilities.IOManager;
+
+import java.util.ArrayList;
+
 /**
  * Created by estupidani on 27/12/16.
  */
@@ -21,10 +24,19 @@ public class GameMessages {
                 "the rules, and if you don't just google them.\n";
         this.ioManager.outln(message);
     }
+    private String stringUsedCharacters(ArrayList<Character> usedCharacters){
+        String characters = "";
+        for(int i = 0; i < usedCharacters.size() ; i++ )
+            characters += usedCharacters.get(i)+", ";
+        characters += "\n";
+        return characters;
+    }
 
-    public void showCurrentState(Word word, int error, int lives){
+    public void showCurrentState(Word word, int error, int lives, ArrayList<Character> usedCharacters){
         String message = "---Current State---\n";
         message += "Your word looks like this: " + word.toString()+"\n";
+        if(usedCharacters.size() > 0 )
+            message += this.stringUsedCharacters(usedCharacters);
         message += "You have "+error+ " mistake(s) left\n";
         message += "You have "+lives+" live(s) left\n";
         this.ioManager.out(message);

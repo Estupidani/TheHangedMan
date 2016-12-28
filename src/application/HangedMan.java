@@ -1,5 +1,6 @@
 package application;
 
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 import utilities.IOManager;
 /**
@@ -19,8 +20,16 @@ public class HangedMan implements WinFailGame {
         return lives;
     }
 
+    public Word getWords(int index){
+        return this.words.get(index);
+    }
+
     public void setWords(Words words) {
         this.words = words;
+    }
+
+    public void setWords(int index, Word word){
+        this.words.set(index,word);
     }
 
     public void setIoManager(IOManager ioManager) {
@@ -56,22 +65,38 @@ public class HangedMan implements WinFailGame {
         return this.getLives() == 0;
     }
 
+    private Word selectWord(){//Selects a random word from words and deletes it right after
+        Word newWord = this.getWords((ThreadLocalRandom.current().nextInt(0, this.getWords().size())));
+        Words auxiliarWords = this.getWords();
+        auxiliarWords.remove(newWord);
+        this.setWords(auxiliarWords);
+        return newWord;
+    }
+
+    private int wordGuess(Word word){
+        int errors = word.length();
+        ArrayList<Character> usedCharacters = new ArrayList<Character>();
+        while( errors > 0 && !word.solved() ){
+            this.getMessages().showCurrentState(word, errors, this.getLives(), usedCharacters);
+            char letter = this.ioManager.getChar();
+            usedCharacters.add(letter);
+            if (!word.showDiscovered(letter))
+                errors--;
+        }
+        return errors;
+    }
+
+    private void failedWord(Word word){
+        this.setLives(this.getLives() - 1);
+        this.getMessages().failMessage(word, this.getWords().size(), this.getLives());
+    }
     public void play(){
         this.getMessages().welcomeMessage(this.getLives());
         do{
-            Word word = this.getWords().get(ThreadLocalRandom.current().nextInt(0, this.getWords().size()));
-            this.words.remove(word);
-            int error = word.length();
-            while( error > 0 && !word.solved() ){
-                this.getMessages().showCurrentState(word, error, this.getLives());
-                char letter = this.ioManager.getChar();
-                if (!word.showDiscovered(letter))
-                    error--;
-            }
-            if ( error == 0 ) {
-                this.setLives(this.getLives() - 1);
-                this.getMessages().failMessage(word, this.getWords().size(), this.getLives());
-            }
+            Word word = this.selectWord();
+            int errors = this.wordGuess(word);
+            if ( errors == 0 )
+                this.failedWord(word);
             else this.getMessages().congratulationsMessage(this.getWords().size(), this.getLives());
         } while(!failState() && !winState());
         this.getMessages().goodByeMessage(this.winState());
